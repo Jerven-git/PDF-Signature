@@ -1,0 +1,102 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./storage:/var/www/storage
+      - ./bootstrap/cache:/var/www/bootstrap/cache
+    ports:
+      - "9000:9000"
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./public:/var/www/public  # Serve static files from public directory
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+  db:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: database
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3306:3306
+    volumes:
+      - ./storage/db-data:/var/lib/mysql  # Persist MySQL data
+    environment:
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_database
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_pw
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_pw
+    secrets:
+      - mysql_database
+      - mysql_root_pw
+      - mysql_user
+      - mysql_pw
+    networks:
+      - app-network
+
+  phpmyadmin:
+    platform: linux/amd64
+    image: phpmyadmin:5
+    container_name: phpmyadmin
+    restart: unless-stopped
+    tty: true
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_pw
+    secrets:
+      - mysql_root_pw
+    ports:
+      - 8001:80
+    networks:
+      - app-network
+          
+  # npm:
+  #   image: node:16
+  #   container_name: node
+  #   working_dir: /var/www
+  #   volumes:
+  #     - .:/var/www
+  #   command: npm run dev  # Run development server to compile assets
+  #   depends_on:
+  #     - app
+  #   networks:
+  #     - app-network
+
+secrets:
+  mysql_database:
+    file: ./.secrets/mysql_database.txt
+  mysql_root_pw:
+    file: ./.secrets/mysql_root_pw.txt
+  mysql_user:
+    file: ./.secrets/mysql_user.txt
+  mysql_pw:
+    file: ./.secrets/mysql_pw.txt
+        
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

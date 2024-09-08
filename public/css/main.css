@@ -1,0 +1,103 @@
+#signature-pad-container {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+}
+
+#pdf-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    height: 150vh; /* Adjust height as needed */
+    overflow: auto; /* Allows scrolling if content overflows */
+    position: relative;
+    margin: auto;
+    /* margin-bottom: 100px; */
+    z-index: 1;
+}
+
+#pdf-canvas {
+    position: absolute;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    border-radius: 4px; /* Optional: Adds rounded corners */
+}
+
+.uploadButton {
+    margin-bottom: 100px;
+}
+
+.zoom-custom {
+    position: fixed;
+    bottom: 20px; /* Adjust distance from the bottom of the viewport */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    display: flex;
+    justify-content: center;
+    z-index: 100; /* Ensure it appears on top of other content */
+    padding: 10px 20px;
+    background-color: white; /* Optional: Background to make the controls visible */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow for distinction */
+    border-radius: 5px; /* Optional: Rounded corners for aesthetic */
+}
+
+.zoom-custom i {
+    font-size: 24px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.zoom-custom i:hover {
+    color: #007bff;
+}
+
+#draggable-signature {
+    position: absolute;
+    cursor: move;
+    z-index: 1000;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease-in-out;
+}
+
+#draggable-signature:hover {
+    border-color: rgb(0, 85, 255);
+}
+
+#loading-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.bg-darkblue {
+    background-color: #003366; /* Example dark blue color */
+}
+.btn-outline-blue {
+    border-color: #003366;
+    color: #003366;
+}
+.btn-outline-blue:hover {
+    background-color: #003366;
+    color: #fff;
+}
+
+.pdf-item {
+    margin-bottom: 10px;
+}
+
+.pdf-link {
+    font-size: 14px;
+    color: #007bff;
+    cursor: pointer;
+}
+.pdf-link:hover {
+    text-decoration: underline;
+}
+.table-sm {
+    font-size: 0.875rem; /* Smaller font size for table */
+}
+.btn-sm {
+    font-size: 0.75rem; /* Smaller button size */
+}
