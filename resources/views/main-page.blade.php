@@ -4,9 +4,9 @@
 
 @section('content')
     <div class="container my-4">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#documentSignModal">
-            Upload PDF
-        </button>
+        <div>
+            <button type="button" class="btn btn-primary" id="uploadPdfButton">Upload PDF</button>
+        </div>
     </div>
 
     <div class="container my-4">

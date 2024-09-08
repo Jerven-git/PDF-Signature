@@ -20,3 +20,7 @@ yarn-error.log
 .secrets/*
 storage/db-data/*
 storage/redis-data/*
+.gitattributes
+.gitattributes
+docker/*
+.github/*
